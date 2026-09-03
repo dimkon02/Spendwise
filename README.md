@@ -1,11 +1,11 @@
-## SPENDWISE
+# SPENDWISE
 
 `Spendwise` is an application whose focus is managing personal finances, built enitrely in Python
 
 The current project is the Command Line INterface (CLI) Beta, it focuses on Objecrt Oriented Programming, clean architecture,
 validating data and automated testing.
 
-# Functions:
+## Functions:
 
 - Add Transaction (id, amount, type, category, description, date)
 - View Transactions
@@ -40,7 +40,7 @@ spendwise/
 |- requiremnts.txt
 |- .gitignore
 
-#  Architecture
+##  Architecture
 
 Spendwise delegates responsibilities in different layers
 
@@ -50,23 +50,23 @@ Storage -> JSON persistence
 
 ## Main Compentents
 
-# Transaction:
+## Transaction:
 
 Represents a financial transaction and is responsible for the validationo of data
 
-# FinanceManager
+## FinanceManager
 
 Handles business logic including CRUD operations, searching, filtering, sorting, and financial calculations.
 
-# Storage
+## Storage
 
 Responsible for converting transactions to and from JSON and handling persistence.
 
-# CLI
+## CLI
 
 Handles user interaction and delegates operations to the appropriate application services.
 
-# Technologies used
+## Technologies used
 
 - Python
 - pytest
@@ -74,7 +74,7 @@ Handles user interaction and delegates operations to the appropriate application
 - OOP
 - Git/GitHub
 
-# Installation
+## Installation
 
 Clone Repository:
 
@@ -90,23 +90,23 @@ Install dependecies:
 
 puthon -m pip install -r requirements.txt
 
-# Running the Application
+## Running the Application
 
 Run: 
 
 python main.py
 
-# Running tests
+## Running tests
 
 python -m pytest
 
-# Current Status
+## Current Status
 
 SpendWise Python CLI Beta — Complete
 
 The current release focuses on establishing a solid Python foundation before expanding the application into a full-stack web application.
 
-# Future Development
+## Future Development
 
 Planned development includes:
 
