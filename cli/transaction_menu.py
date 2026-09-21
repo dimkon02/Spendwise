@@ -11,7 +11,6 @@ from utils.input_helpers import (
 )
 
 def get_transaction_data() -> tuple:
-    transaction_id = get_integer("Transaction ID: ")
     transaction_amount = get_decimal("Transaction amount: ")
     transaction_type = get_transaction_type("Transaction Type: ")
     transaction_category = get_category("Transaction Category: ")
@@ -19,7 +18,7 @@ def get_transaction_data() -> tuple:
     transaction_date =  get_date("Transaction date (YYYY-MM-DD): ")
 
     return (
-        transaction_id, transaction_amount, transaction_type, transaction_category, transaction_description, transaction_date
+        transaction_amount, transaction_type, transaction_category, transaction_description, transaction_date
     )
 
 def add_transaction(
@@ -28,7 +27,6 @@ def add_transaction(
 ) -> None:
     try:
         (
-            transaction_id,
             transaction_amount,
             transaction_type,
             transaction_category,
@@ -37,7 +35,7 @@ def add_transaction(
         ) = get_transaction_data()
 
         transaction = Transaction(
-            transaction_id,
+            manager.next_id(),
             transaction_amount,
             transaction_type,
             transaction_category,
@@ -79,8 +77,7 @@ def search_transactions(manager: FinanceManager) -> None:
 
     elif input_choice_3 == "2":
         input_search = input("What are you looking for? ")
-        transaction_search = manager.search_transactions(input_search)
-
+        transaction_search = manager.search_transactions(input_search)          
         if not transaction_search:
             print("No transactions found.")
         else:
@@ -166,8 +163,12 @@ def update_transaction(
     storage: Storage,
 ) -> None:
     try:
+        transaction_id = get_integer("Id of transaction to update: ")
+
+        transaction = manager.get_transaction_by_id(transaction_id)
+        print(f"Updating: {transaction}")
+
         (
-            transaction_id,
             transaction_amount,
             transaction_type,
             transaction_category,
@@ -190,7 +191,6 @@ def update_transaction(
 
     except ValueError as error:
         print(f"Error: {error}")
-
 def delete_transaction(
     manager: FinanceManager,
     storage: Storage,

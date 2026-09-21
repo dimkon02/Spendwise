@@ -1,6 +1,7 @@
 import json
+import os 
 from datetime import date
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from json import JSONDecodeError
 from models.transaction import Transaction
@@ -66,8 +67,12 @@ class Storage:
         for transaction in transactions:
             data.append(self.transaction_to_dict(transaction))
 
-        with self.file_path.open("w", encoding="utf-8") as file:
+        temp_path = self.file_path.with_name(self.file_path.name + ".tmp")
+
+        with temp_path.open("w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
+
+        os.replace(temp_path, self.file_path)
 
     def dict_to_transaction(self, data: dict) -> Transaction:
         """
@@ -114,8 +119,15 @@ class Storage:
             return []
 
         transactions = []
+        skipped = 0
 
         for item in data:
-            transactions.append(self.dict_to_transaction(item))
+            try:
+                transactions.append(self.dict_to_transaction(item))
+            except (ValueError, KeyError, TypeError, InvalidOperation):
+                skipped += 1
+
+        if skipped > 0:
+            print(f"Warning: skipped {skipped} invalid transaction(s).")
 
         return transactions

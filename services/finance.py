@@ -5,30 +5,34 @@ from datetime import date
 class FinanceManager:
 
     def __init__(self):
-        self.transactions = []
+        self._transactions = {}
+
+    def next_id(self) -> int:
+        if not self.transactions:
+            return 1
+
+        return max(transaction.id for transaction in self.transactions) + 1
 
     def add_transaction(self, transaction: Transaction):
-        for existing_transaction in self.transactions:
-            if existing_transaction.id == transaction.id:
-                raise ValueError("ID is already used.")
+        if transaction.id in self._transactions:
+            raise ValueError("ID is already used.")
 
-        self.transactions.append(transaction)
+        self._transactions[transaction.id] = transaction
 
     def get_transactions(self):
-        return self.transactions
+        return list(self._transactions.values())
 
     def get_transaction_by_id(self, transaction_id):
-        for transaction in self.transactions:
-            if transaction_id == transaction.id:
-                return transaction
-        raise ValueError("Transaction not found.")
+        try:
+            return self._transactions[transaction_id]
+        except KeyError:
+            raise ValueError("Transaction not found.")
 
     def delete_transaction(self, transaction_id):
-        try:
-            transaction = self.get_transaction_by_id(transaction_id)
-        except ValueError:
+        if transaction_id not in self._transactions:
             return False
-        self.transactions.remove(transaction)
+
+        del self._transactions[transaction_id]
         return True
 
 
@@ -42,6 +46,7 @@ class FinanceManager:
             transaction_type_new,
             transaction_category,
             transaction_description,
+            transaction_date
         )
         
         transaction.amount = transaction_amount
@@ -53,7 +58,7 @@ class FinanceManager:
     def calculate_income(self):
         total_income = Decimal("0")
 
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if transaction.type == "income":
                 total_income += transaction.amount
 
@@ -62,7 +67,7 @@ class FinanceManager:
     def calculate_expenses(self):
         total_expenses = Decimal("0")
 
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if transaction.type == "expense":
                 total_expenses += transaction.amount
         return total_expenses
@@ -78,7 +83,7 @@ class FinanceManager:
     def filter_by_description(self, description_keyword: str)-> list[Transaction]:
 
         results = []
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if description_keyword.lower() in  transaction.description.lower():
                 results.append(transaction)
         return results
@@ -86,14 +91,14 @@ class FinanceManager:
     def filter_by_type(self, transaction_type: str)-> list:
 
         results = []
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if transaction_type.lower() == transaction.type.lower() :
                 results.append(transaction)
         return results
 
     def filter_by_category(self, category: str)-> list:
         results = []
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if category.lower() == transaction.category.lower():
                 results.append(transaction)
         return results
@@ -101,7 +106,7 @@ class FinanceManager:
     def search_transactions(self, keyword: str) -> list[Transaction]:
         results = []
 
-        for transaction in self.transactions:
+        for transaction in self._transactions.values():
             if (
                 keyword.lower() in transaction.description.lower()
                 or keyword.lower() in transaction.type.lower()
@@ -114,26 +119,26 @@ class FinanceManager:
 
     def sort_transactions_asc(self):
         return sorted(
-            self.transactions,
+            self._transactions.values(),
             key=lambda transaction: transaction.amount
         )
 
     def sort_transactions_dsc(self):
         return sorted(
-            self.transactions,
+            self._transactions.values(),
             key=lambda transaction: transaction.amount,
             reverse = True
         )
 
     def sort_transactions_by_date_asc(self) -> list[Transaction]:
         return sorted(
-            self.transactions,
+            self._transactions.values(),
             key=lambda transaction: transaction.date
         )
 
     def sort_transactions_by_date_dsc(self) -> list[Transaction]:
         return sorted(
-            self.transactions,
+            self._transactions.values(),
             key=lambda transaction: transaction.date,
             reverse= True
         )

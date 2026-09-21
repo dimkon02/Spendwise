@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from datetime import date
 from models.transaction import CATEGORIES
 
@@ -6,12 +6,17 @@ def get_decimal(prompt: str) -> Decimal:
     while True:
         try:
             value = Decimal(input(prompt))
+
+            if not value.is_finite():
+                print("Invalid amount.")
+                continue
+
             if value > 0:
                 return value
-            
+
             print("Value must be positive")
 
-        except ValueError:
+        except InvalidOperation:
             print("Invalid amount.")
 
 def get_integer(prompt: str) -> int:
