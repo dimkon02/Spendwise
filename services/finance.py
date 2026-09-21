@@ -6,12 +6,12 @@ class FinanceManager:
 
     def __init__(self):
         self._transactions = {}
-
+        
     def next_id(self) -> int:
-        if not self.transactions:
+        if not self._transactions:
             return 1
 
-        return max(transaction.id for transaction in self.transactions) + 1
+        return max(self._transactions) + 1
 
     def add_transaction(self, transaction: Transaction):
         if transaction.id in self._transactions:

@@ -312,3 +312,29 @@ def test_empty_manager_calculations(manager):
     assert manager.calculate_income() == Decimal("0")
     assert manager.calculate_expenses() == Decimal("0")
     assert manager.calculate_balance() == Decimal("0")
+
+# -------------------------
+# NEXT ID
+# -------------------------
+
+def test_next_id_on_empty_manager(manager):
+    assert manager.next_id() == 1
+
+
+def test_next_id_never_collides_with_an_existing_id(populated_manager):
+    existing = {t.id for t in populated_manager.get_transactions()}
+    assert populated_manager.next_id() not in existing
+
+
+def test_next_id_after_deleting_a_middle_transaction(populated_manager):
+    populated_manager.delete_transaction(2)
+    existing = {t.id for t in populated_manager.get_transactions()}
+    assert populated_manager.next_id() not in existing
+
+
+def test_next_id_can_be_added_without_error(populated_manager):
+    new_id = populated_manager.next_id()
+    populated_manager.add_transaction(
+        create_transaction(new_id, "5.00", "expense", "food", "Coffee", date(2026, 9, 3))
+    )
+    assert len(populated_manager.get_transactions()) == 4
