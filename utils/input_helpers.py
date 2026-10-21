@@ -34,9 +34,13 @@ def get_integer(prompt: str) -> int:
 
 def get_date(prompt: str) -> date:
     while True:
+        raw = input(prompt).strip()
+        
+        if raw == "":
+            return date.today()
+
         try:
-            value = date.fromisoformat(input(prompt).strip())
-            return value
+            return date.fromisoformat(raw)
         except ValueError:
             print("Invalid date. Use YYYY-MM-DD.")
 

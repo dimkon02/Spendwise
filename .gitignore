@@ -1,5 +1,25 @@
+# Virtual environment
 venv/
+.venv/
+
+# Python
 __pycache__/
-.pytest_cache/
 *.pyc
-data/*.json
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (downloaded, never committed)
+data/
+
+# Trained models (can be large; rebuilt by training)
+*.joblib
+
+# Secrets
+.env
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db

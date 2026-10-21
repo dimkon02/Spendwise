@@ -15,8 +15,8 @@ def get_transaction_data() -> tuple:
     transaction_type = get_transaction_type("Transaction Type: ")
     transaction_category = get_category("Transaction Category: ")
     transaction_description = get_non_empty_string("Transaction description: ")
-    transaction_date =  get_date("Transaction date (YYYY-MM-DD): ")
-
+    transaction_date = get_date("Transaction date (YYYY-MM-DD, blank for today): ")
+    
     return (
         transaction_amount, transaction_type, transaction_category, transaction_description, transaction_date
     )
