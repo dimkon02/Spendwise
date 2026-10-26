@@ -9,17 +9,37 @@ from utils.input_helpers import (
     get_transaction_type,
     get_category,
 )
+from ml.predict import CategoryPredictor
+
+predictor = CategoryPredictor()
+
+def suggest_category(description: str) -> tuple[str, float] | None:
+    try:
+        return predictor.suggest(description)
+    except FileNotFoundError:
+        print("Category model not found, choose the category yourself.")
+        return None
+
 
 def get_transaction_data() -> tuple:
-    transaction_amount = get_decimal("Transaction amount: ")
-    transaction_type = get_transaction_type("Transaction Type: ")
-    transaction_category = get_category("Transaction Category: ")
     transaction_description = get_non_empty_string("Transaction description: ")
+
+    suggestion = suggest_category(transaction_description)
+    if suggestion:
+        category, confidence = suggestion
+        prompt = f"Category number (Enter = {category}, {confidence:.0%}): "
+        transaction_category = get_category(prompt, default=category)
+    else:
+        transaction_category = get_category("Category number: ")
+
+    transaction_type = "income" if transaction_category == "Income" else "expense"
+    transaction_amount = get_decimal("Transaction amount: ")
     transaction_date = get_date("Transaction date (YYYY-MM-DD, blank for today): ")
-    
+
     return (
         transaction_amount, transaction_type, transaction_category, transaction_description, transaction_date
     )
+
 
 def add_transaction(
     manager: FinanceManager,

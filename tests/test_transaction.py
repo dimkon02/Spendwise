@@ -11,7 +11,7 @@ def test_create_valid_transaction():
         1,
         Decimal("50.00"),
         "expense",
-        "food",
+        "Food & Dining",
         "Dinner",
         date(2026, 9, 3),
     )
@@ -19,7 +19,7 @@ def test_create_valid_transaction():
     assert transaction.id == 1
     assert transaction.amount == Decimal("50.00")
     assert transaction.type == "expense"
-    assert transaction.category == "food"
+    assert transaction.category == "Food & Dining"
     assert transaction.description == "Dinner"
     assert transaction.date == date(2026, 9, 3)
 
@@ -30,7 +30,7 @@ def test_invalid_id():
             0,
             Decimal("50.00"),
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -42,7 +42,7 @@ def test_negative_id():
             -1,
             Decimal("50.00"),
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -54,7 +54,7 @@ def test_zero_amount():
             1,
             Decimal("0"),
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -66,7 +66,7 @@ def test_negative_amount():
             1,
             Decimal("-10.00"),
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -78,7 +78,7 @@ def test_invalid_transaction_type():
             1,
             Decimal("50.00"),
             "banana",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -102,7 +102,7 @@ def test_empty_description():
             1,
             Decimal("50.00"),
             "expense",
-            "food",
+            "Food & Dining",
             "",
             date(2026, 9, 3),
         )
@@ -113,7 +113,7 @@ def test_income_transaction():
         2,
         Decimal("2500.00"),
         "income",
-        "salary",
+        "Income",
         "Monthly salary",
         date(2026, 9, 1),
     )

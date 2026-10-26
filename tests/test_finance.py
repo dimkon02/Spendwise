@@ -37,7 +37,7 @@ def populated_manager(manager):
             1,
             "100.00",
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 1),
         ),
@@ -45,7 +45,7 @@ def populated_manager(manager):
             2,
             "2000.00",
             "income",
-            "salary",
+            "Income",
             "Monthly salary",
             date(2026, 9, 2),
         ),
@@ -53,7 +53,7 @@ def populated_manager(manager):
             3,
             "50.00",
             "expense",
-            "transport",
+            "Transportation",
             "Bus ticket",
             date(2026, 8, 30),
         ),
@@ -74,7 +74,7 @@ def test_add_transaction(manager):
         1,
         "100.00",
         "expense",
-        "food",
+        "Food & Dining",
         "Dinner",
         date(2026, 9, 1),
     )
@@ -102,7 +102,7 @@ def test_duplicate_transaction_id(manager):
         1,
         "100.00",
         "expense",
-        "food",
+        "Food & Dining",
         "Dinner",
         date(2026, 9, 1),
     )
@@ -111,7 +111,7 @@ def test_duplicate_transaction_id(manager):
         1,
         "200.00",
         "expense",
-        "transport",
+        "Transportation",
         "Bus",
         date(2026, 9, 2),
     )
@@ -131,7 +131,7 @@ def test_update_transaction(populated_manager):
         1,
         Decimal("150.00"),
         "expense",
-        "food",
+        "Food & Dining",
         "Updated dinner",
         date(2026, 9, 3),
     )
@@ -140,7 +140,7 @@ def test_update_transaction(populated_manager):
 
     assert transaction.amount == Decimal("150.00")
     assert transaction.type == "expense"
-    assert transaction.category == "food"
+    assert transaction.category == "Food & Dining"
     assert transaction.description == "Updated dinner"
     assert transaction.date == date(2026, 9, 3)
 
@@ -151,7 +151,7 @@ def test_update_nonexistent_transaction(populated_manager):
             999,
             Decimal("100.00"),
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -188,7 +188,7 @@ def test_search_by_description(populated_manager):
 
 
 def test_search_by_category(populated_manager):
-    results = populated_manager.search_transactions("salary")
+    results = populated_manager.search_transactions("Income")
 
     assert len(results) == 1
     assert results[0].id == 2
@@ -228,7 +228,7 @@ def test_filter_by_type(populated_manager):
 
 
 def test_filter_by_category(populated_manager):
-    results = populated_manager.filter_by_category("food")
+    results = populated_manager.filter_by_category("Food & Dining")
 
     assert len(results) == 1
     assert results[0].id == 1
@@ -335,6 +335,6 @@ def test_next_id_after_deleting_a_middle_transaction(populated_manager):
 def test_next_id_can_be_added_without_error(populated_manager):
     new_id = populated_manager.next_id()
     populated_manager.add_transaction(
-        create_transaction(new_id, "5.00", "expense", "food", "Coffee", date(2026, 9, 3))
+        create_transaction(new_id, "5.00", "expense", "Food & Dining", "Coffee", date(2026, 9, 3))
     )
     assert len(populated_manager.get_transactions()) == 4

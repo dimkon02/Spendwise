@@ -44,9 +44,9 @@ def get_date(prompt: str) -> date:
         except ValueError:
             print("Invalid date. Use YYYY-MM-DD.")
 
-def get_non_empty_string(promt: str) -> str:
+def get_non_empty_string(prompt: str) -> str:
     while True:
-        value = input(promt).strip()\
+        value = input(prompt).strip()
 
         if len(value) == 0:
             print("String cannot be empty.")
@@ -63,11 +63,17 @@ def get_transaction_type(prompt: str) -> str:
         print("Invalid type. Please enter income or expense.")
 
 
-def get_category(prompt: str) -> str:
+def get_category(prompt: str, default: str | None = None) -> str:
+    for number, category in enumerate(CATEGORIES, start=1):
+        print(f"{number}. {category}")
+
     while True:
-        value = input(prompt).strip().lower()
+        value = input(prompt).strip()
 
-        if value in CATEGORIES:
-            return value
+        if value == "" and default is not None:
+            return default
 
-        print("Invalid category.")
+        if value.isdigit() and 1 <= int(value) <= len(CATEGORIES):
+            return CATEGORIES[int(value) - 1]
+
+        print(f"Invalid category. Enter a number from 1 to {len(CATEGORIES)}.")

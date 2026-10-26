@@ -33,7 +33,7 @@ def test_save_and_load_transactions(tmp_path):
             1,
             "50.00",
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 3),
         )
@@ -47,7 +47,7 @@ def test_save_and_load_transactions(tmp_path):
     assert loaded[0].id == 1
     assert loaded[0].amount == Decimal("50.00")
     assert loaded[0].type == "expense"
-    assert loaded[0].category == "food"
+    assert loaded[0].category == "Food & Dining"
     assert loaded[0].description == "Dinner"
     assert loaded[0].date == date(2026, 9, 3)
 
@@ -62,7 +62,7 @@ def test_save_multiple_transactions(tmp_path):
             1,
             "50.00",
             "expense",
-            "food",
+            "Food & Dining",
             "Dinner",
             date(2026, 9, 1),
         ),
@@ -70,7 +70,7 @@ def test_save_multiple_transactions(tmp_path):
             2,
             "2500.00",
             "income",
-            "salary",
+            "Income",
             "Salary",
             date(2026, 9, 2),
         ),

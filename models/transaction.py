@@ -1,17 +1,18 @@
 from datetime import date
 from decimal import Decimal
 
-CATEGORIES = {
-    "food",
-    "housing",
-    "transport",
-    "entertainment",
-    "shopping",
-    "health",
-    "bills",
-    "salary",
-    "other",
-}
+CATEGORIES = (
+    "Food & Dining",
+    "Transportation",
+    "Shopping & Retail",
+    "Entertainment & Recreation",
+    "Utilities & Services",
+    "Healthcare & Medical",
+    "Financial Services",
+    "Government & Legal",
+    "Charity & Donations",
+    "Income",
+)
 
 class Transaction:
 
@@ -27,7 +28,7 @@ class Transaction:
             raise ValueError( "Transaction type must be income or expense." )
         if not category.strip():
             raise ValueError("Category must not be empty")
-        if category.lower() not in CATEGORIES:
+        if category not in CATEGORIES:
             raise ValueError("Invalid category")
         if not description.strip():
             raise ValueError("Description cannot be empty.")
