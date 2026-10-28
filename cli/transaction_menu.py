@@ -237,3 +237,5 @@ def show_financial_summary(manager: FinanceManager) -> None:
     print(f"Total income: {total_income}")
     print(f"Total expenses: {total_expense}")
     print(f"Total balance: {total_balance}")
+
+
